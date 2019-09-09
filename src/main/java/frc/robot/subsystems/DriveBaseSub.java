@@ -5,6 +5,7 @@ import frc.robot.RobotMap;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import frc.robot.InitMethods;
 
 public class DriveBaseSub extends Subsystem {
   private VictorSPX leftFront;
@@ -13,6 +14,8 @@ public class DriveBaseSub extends Subsystem {
 	private VictorSPX rightFol;
 	public TalonSRX leftMast;
   public TalonSRX rightMast;
+
+  public InitMethods init;
   
   public DriveBaseSub(){
     leftFol = new VictorSPX(RobotMap.LEFTFOL.value);
@@ -21,7 +24,13 @@ public class DriveBaseSub extends Subsystem {
 		rightMast = new TalonSRX(RobotMap.RIGHTTAL.value);
 		leftFront = new VictorSPX(RobotMap.LEFTFRONT.value);
     rightFront = new VictorSPX(RobotMap.RIGHTFRONT.value);
+
+    init = new InitMethods();
     
+    init.initVictor(leftFol);
+		init.initVictor(rightFol);
+		init.initVictor(leftFront);
+		init.initVictor(rightFront);
 
   }
 
