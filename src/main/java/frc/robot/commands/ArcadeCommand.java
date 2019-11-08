@@ -8,14 +8,24 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.com.team7419.MotorGroup;
 import frc.robot.*;
 
 /**
  * An example command.  You can replace me with your own command.
  */
 public class ArcadeCommand extends Command {
-  public ArcadeCommand(){
-    // Use requires() here to declare subsystem dependencies
+
+  private MotorGroup leftSide;
+  private MotorGroup rightSide;
+  private double kStraight;
+  private double kTurn;
+
+  public ArcadeCommand(MotorGroup leftSide, MotorGroup rightSide, double kStraight, double kTurn){
+    this.leftSide = leftSide;
+    this.rightSide = rightSide;
+    this.kStraight = kStraight;
+    this.kTurn = kTurn;
     requires(Robot.driveBase);
   }
 

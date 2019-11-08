@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.commands.ArcadeCommand;
 import frc.robot.subsystems.DriveBaseSub;
-
+ 
 public class Robot extends TimedRobot {
   public static OI oi;
   public static DriveBaseSub driveBase;
@@ -14,7 +14,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     oi = new OI();
     driveBase = new DriveBaseSub();
-    arcade = new ArcadeCommand();
+    //arcade = new ArcadeCommand();
   }
 
   @Override
