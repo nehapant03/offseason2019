@@ -8,13 +8,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
+import frc.robot.*;
 
 /**
  * An example command.  You can replace me with your own command.
  */
-public class TurnCommand extends Command {
-  public TurnCommand() {
+public class ArcadeCommand extends Command {
+  public ArcadeCommand(){
     // Use requires() here to declare subsystem dependencies
     requires(Robot.driveBase);
   }
