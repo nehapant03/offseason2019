@@ -14,7 +14,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     oi = new OI();
     driveBase = new DriveBaseSub();
-    //arcade = new ArcadeCommand();
+    arcade = new ArcadeCommand(oi.joystick, driveBase.leftSide, driveBase.rightSide, .4, .4);
   }
 
   @Override
@@ -45,6 +45,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    arcade.start();
   }
 
   @Override
