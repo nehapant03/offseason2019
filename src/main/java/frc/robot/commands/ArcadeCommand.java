@@ -8,14 +8,34 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
+import frc.com.team7419.MotorGroup;
+import frc.com.team7419.PaddedXbox;
+import frc.robot.*;
 
 /**
- * An example command.  You can replace me with your own command.
+ * Reusable arcade command
  */
-public class TurnCommand extends Command {
-  public TurnCommand() {
-    // Use requires() here to declare subsystem dependencies
+public class ArcadeCommand extends Command {
+
+  private MotorGroup leftSide;
+  private MotorGroup rightSide;
+  private double kStraight;
+  private double kTurn;
+  private PaddedXbox joystick;
+
+  /**
+   * @param joystick PaddedXbox class
+   * @param leftSide MotorGroup class
+   * @param rightSide MotorGroup class
+   * @param kStraight 
+   * @param kTurn
+   */
+  public ArcadeCommand(PaddedXbox joystick, MotorGroup leftSide, MotorGroup rightSide, double kStraight, double kTurn){
+    this.joystick = joystick;
+    this.leftSide = leftSide;
+    this.rightSide = rightSide;
+    this.kStraight = kStraight;
+    this.kTurn = kTurn;
     requires(Robot.driveBase);
   }
 
@@ -27,6 +47,12 @@ public class TurnCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+
+    double leftPower = kTurn * joystick.getRightX() - kStraight * joystick.getLeftY();
+    double rightPower = kTurn * joystick.getRightX() + kStraight * joystick.getLeftY();
+
+    leftSide.setPower(leftPower);
+    rightSide.setPower(rightPower);
   }
 
   // Make this return true when this Command no longer needs to run execute()

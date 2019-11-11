@@ -1,21 +1,20 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.commands.TurnCommand;
+import frc.robot.commands.ArcadeCommand;
 import frc.robot.subsystems.DriveBaseSub;
-
+ 
 public class Robot extends TimedRobot {
   public static OI oi;
   public static DriveBaseSub driveBase;
-  public static TurnCommand turn;
+  public static ArcadeCommand arcade;
 
   @Override
   public void robotInit() {
     oi = new OI();
     driveBase = new DriveBaseSub();
-    turn = new TurnCommand();
+    arcade = new ArcadeCommand(oi.joystick, driveBase.leftSide, driveBase.rightSide, .4, .4);
   }
 
   @Override
@@ -46,6 +45,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    arcade.start();
   }
 
   @Override
