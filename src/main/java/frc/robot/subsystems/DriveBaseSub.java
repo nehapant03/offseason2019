@@ -28,12 +28,13 @@ public class DriveBaseSub extends Subsystem {
     leftSide = new MotorGroup(leftMast, leftFol);
     rightSide = new MotorGroup(rightMast, rightFol);
 
-    leftSide.followMaster();
-    rightSide.followMaster();
+    
     
     Initers.initVictors(leftFol, rightFol);
 
-    rightSide.setInverted(true);
+    leftSide.followMaster();
+    rightSide.followMaster();
+    //rightSide.setInverted(true);
 
   }
 

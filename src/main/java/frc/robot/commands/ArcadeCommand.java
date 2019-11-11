@@ -48,8 +48,8 @@ public class ArcadeCommand extends Command {
   @Override
   protected void execute() {
 
-    double leftPower = kTurn * joystick.getRightX() + kStraight * joystick.getLeftY();
-    double rightPower = kTurn * joystick.getRightX() - kStraight * joystick.getLeftY();
+    double leftPower = kTurn * joystick.getRightX() - kStraight * joystick.getLeftY();
+    double rightPower = kTurn * joystick.getRightX() + kStraight * joystick.getLeftY();
 
     leftSide.setPower(leftPower);
     rightSide.setPower(rightPower);
