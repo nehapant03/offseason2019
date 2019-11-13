@@ -25,12 +25,4 @@ public abstract class Initers {
 			talon.configClosedloopRamp(.2, 0);
 		}
 	}
-
-	public static void initTalonEncoders(TalonSRX...talons){
-		for (TalonSRX talon : talons){
-			talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-		}
-	}
-
-	
 }
