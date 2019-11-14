@@ -7,9 +7,14 @@
 
 package frc.robot;
 
-import frc.com.team7419.PaddedXbox;
+import com.team7419.PaddedXbox;
+
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class OI {
+
   public PaddedXbox joystick = new PaddedXbox();
+  public JoystickButton leftDpad = new JoystickButton(joystick.playerOne, joystick.playerOne.getPOV());
+  
   public OI(){}
 }

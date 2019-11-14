@@ -1,10 +1,10 @@
-package frc.com.team7419;
+package com.team7419;
 
 import edu.wpi.first.wpilibj.XboxController;
 
-public class PaddedXbox{
+public class PaddedXbox {
 
-    private XboxController playerOne; 
+    public XboxController playerOne; 
 
     public PaddedXbox(){
         playerOne = new XboxController(F310Map.f310Main.value);

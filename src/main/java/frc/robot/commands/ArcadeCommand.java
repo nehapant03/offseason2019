@@ -8,8 +8,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.com.team7419.MotorGroup;
-import frc.com.team7419.PaddedXbox;
+import com.team7419.MotorGroup;
+import com.team7419.PaddedXbox;
 import frc.robot.*;
 
 /**
