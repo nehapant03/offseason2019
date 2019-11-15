@@ -14,7 +14,12 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class OI {
 
   public PaddedXbox joystick = new PaddedXbox();
-  public JoystickButton leftDpad = new JoystickButton(joystick.playerOne, joystick.playerOne.getPOV());
+  public JoystickButton dpad;
   
-  public OI(){}
+  public OI(){
+    dpad = new JoystickButton(joystick.playerOne, joystick.playerOne.getPOV());
+    //dpad.cancelWhenPressed(new ArcadeDrive(oi.joystick, driveBase.leftSide, driveBase.rightSide, .4, .4));
+  }
+
+  
 }
