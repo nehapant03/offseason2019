@@ -1,6 +1,5 @@
-package frc.com.team7419;
+package com.team7419;
 
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
@@ -25,12 +24,4 @@ public abstract class Initers {
 			talon.configClosedloopRamp(.2, 0);
 		}
 	}
-
-	public static void initTalonEncoders(TalonSRX...talons){
-		for (TalonSRX talon : talons){
-			talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-		}
-	}
-
-	
 }

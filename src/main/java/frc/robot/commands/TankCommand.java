@@ -15,7 +15,7 @@ import frc.robot.*;
 /**
  * Reusable arcade command
  */
-public class ArcadeCommand extends Command {
+public class TankCommand extends Command {
 
   private MotorGroup leftSide;
   private MotorGroup rightSide;
@@ -30,7 +30,7 @@ public class ArcadeCommand extends Command {
    * @param kStraight 
    * @param kTurn
    */
-  public ArcadeCommand(PaddedXbox joystick, MotorGroup leftSide, MotorGroup rightSide, double kStraight, double kTurn){
+  public TankCommand(PaddedXbox joystick, MotorGroup leftSide, MotorGroup rightSide, double kStraight, double kTurn){
     this.joystick = joystick;
     this.leftSide = leftSide;
     this.rightSide = rightSide;
@@ -48,8 +48,17 @@ public class ArcadeCommand extends Command {
   @Override
   protected void execute() {
 
-    double leftPower = kTurn * joystick.getRightX() - kStraight * joystick.getLeftY();
-    double rightPower = kTurn * joystick.getRightX() + kStraight * joystick.getLeftY();
+    double leftPower = joystick.getLeftY();
+    double rightPower = joystick.getRightY();
+
+    if(leftPower * rightPower > 0){ //going in same direction, robot is straight
+        leftPower *= kStraight;
+        rightPower *= kStraight;
+    }
+    else{ //opp directions, robot is turning
+        leftPower *= kTurn;
+        rightPower *= kTurn;
+    }
 
     leftSide.setPower(leftPower);
     rightSide.setPower(rightPower);
