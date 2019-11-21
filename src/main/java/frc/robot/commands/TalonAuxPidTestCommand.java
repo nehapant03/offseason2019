@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.SensorTerm;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.team7419.TalonFuncs;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
@@ -19,6 +20,11 @@ public class TalonAuxPidTestCommand extends Command {
     public int kTurnTravelUnitsPerRotation;
     public int kEncoderUnitsPerRotation;
     public int kTimeoutMs = 30;
+
+    public double turnP;
+    public double turnI;
+    public double turnD;
+    public double turnF;
 
     public TalonAuxPidTestCommand(TalonSRX leftMast, TalonSRX rightMast){
         this.leftMast = leftMast;
@@ -69,8 +75,35 @@ public class TalonAuxPidTestCommand extends Command {
         
         /* set status frame periods */
         rightMast.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20, kTimeoutMs);
-		rightMast.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 20, kTimeoutMs);
-		leftMast.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5, kTimeoutMs);
+		rightMast.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 20, kTimeoutMs); 
+		leftMast.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5, kTimeoutMs); // used remotely by right side
+
+        /* configure neutral deadband */
+        leftMast.configNeutralDeadband(.001, kTimeoutMs); // using minimum val bc like whatever
+        rightMast.configNeutralDeadband(.001, kTimeoutMs);
+
+        /* set max values for peak output */
+        leftMast.configPeakOutputForward(1, kTimeoutMs);
+        leftMast.configPeakOutputReverse(-1, kTimeoutMs);
+        rightMast.configPeakOutputForward(1, kTimeoutMs);
+        rightMast.configPeakOutputReverse(-1, kTimeoutMs);
+
+        TalonFuncs.setPIDFConstants(1, rightMast, turnP, turnI, turnD, turnF);
+
+        rightMast.config_IntegralZone(1, 200, kTimeoutMs); // prevents I term from going crazy
+		rightMast.configClosedLoopPeakOutput(1, 1, kTimeoutMs); // sets max closed loop output
+        rightMast.configAllowableClosedloopError(1, 0, kTimeoutMs); // minimize closed loop error
+        
+        // 1 ms per loop, can be slowed down if needed
+        int closedLoopTimeMs = 1;
+        rightMast.configClosedLoopPeriod(0, closedLoopTimeMs, kTimeoutMs);
+        rightMast.configClosedLoopPeriod(1, closedLoopTimeMs, kTimeoutMs);
+
+        /* false means talon's local output is PID0 + PID1, and other side Talon is PID0 - PID1
+        * true means talon's local output is PID0 - PID1, and other side Talon is PID0 + PID1
+        */
+       rightMast.configAuxPIDPolarity(false, kTimeoutMs); // this is completely arbitrary and may be wrong
+
 
     }
 
