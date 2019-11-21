@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import com.team7419.Initers;
 import com.team7419.MotorGroup;
+import com.team7419.TalonFuncs;
+
 import frc.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -26,17 +28,20 @@ public class DriveBaseSub extends Subsystem {
     leftSide = new MotorGroup(leftMast, leftFol);
     rightSide = new MotorGroup(rightMast, rightFol);
 
-    
-    
     Initers.initVictors(leftFol, rightFol);
 
     leftSide.followMaster();
     rightSide.followMaster();
-    //rightSide.setInverted(true);
 
+    TalonFuncs.configEncoder(leftMast);
+    TalonFuncs.configEncoder(rightMast);
   }
 
   @Override
   public void initDefaultCommand() {} 
     //imma not do this bc we want to feed arcade constructor useful things in Robot.java
+    
+  public MotorGroup getLeftSide(){return leftSide;}
+  public MotorGroup getRightSide(){return rightSide;}
+  
 }

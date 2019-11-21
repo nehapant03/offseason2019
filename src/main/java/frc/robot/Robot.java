@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.commands.ArcadeCommand;
@@ -48,7 +50,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    tank.start();
+    arcade.start();
   }
 
   @Override
@@ -59,4 +61,8 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
   }
+
+  public TalonSRX getRightMast(){return driveBase.rightMast;}
+  public TalonSRX getLeftMast(){return driveBase.leftMast;}
+
 }
