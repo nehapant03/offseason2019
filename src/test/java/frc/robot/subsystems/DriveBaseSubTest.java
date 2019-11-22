@@ -12,6 +12,12 @@ import com.team7419.PaddedXbox;
 
 public class DriveBaseSubTest {
 
+
+    @Before
+    public void setUp() {
+        Robot.driveBase = mock(DriveBaseSub.class);
+    }
+
     @Test
     public void firstTest() {
 

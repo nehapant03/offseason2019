@@ -17,7 +17,7 @@ public class OI {
   public JoystickButton dpad;
   
   public OI(){
-    dpad = new JoystickButton(joystick.playerOne, joystick.playerOne.getPOV());
+    dpad = new JoystickButton(joystick, joystick.getPOV());
     //dpad.cancelWhenPressed(new ArcadeDrive(oi.joystick, driveBase.leftSide, driveBase.rightSide, .4, .4));
   }
 
