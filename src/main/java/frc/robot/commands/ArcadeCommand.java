@@ -47,7 +47,7 @@ public class ArcadeCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
 public void execute() {
-
+    
     double leftPower = kTurn * joystick.getRightX() - kStraight * joystick.getLeftY();
     double rightPower = kTurn * joystick.getRightX() + kStraight * joystick.getLeftY();
 
