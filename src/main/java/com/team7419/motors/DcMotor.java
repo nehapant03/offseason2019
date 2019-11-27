@@ -2,16 +2,15 @@ package com.team7419.motors;
 
 import com.team7419.math.*;
 
+/**
+     * simulation motor based on 971's motor model
+     * essentially modelling motor as generator + resistor
+     */
 public class DcMotor{
 
     private double kT;
     private double kV;
 
-    /**
-     * simulation motor based on 971's motor model
-     * essentially looking at motor as generator + resistor
-     * @param motorType cim, mini cim, 775 pro
-     */
     public DcMotor(MotorType motorType){
         
         /**
