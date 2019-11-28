@@ -12,6 +12,10 @@ public class DcMotor{
     private double kV;
     private double kInternalResistance;
 
+    protected double m_position;
+    protected double m_velocity;
+    protected double m_current;
+
     /**
      * constructs a DcMotor based on a given type
      */
@@ -49,6 +53,28 @@ public class DcMotor{
         this.kV = kV;
         this.kInternalResistance = kInternalResistance;
         this.kT = kT;
+    }
+
+    /**
+     * def minorly stealing from 254 but like ehh
+     * @param motor instantiate DcMotor with appropriate MotorType and pass through
+     * @param numOfMotors number of motors in gearbox
+     * @param gearReduction gear ratio
+     * @return a DcMotor object that'll behave like the whole transmission
+     */
+    public static DcMotor makeTransmission(DcMotor motor, int numOfMotors, double gearReduction){
+        return new DcMotor(motor.kV / gearReduction, // scale kV by number of motors
+        numOfMotors * gearReduction * motor.kT,  // scale kT by number of motors, gearing
+        motor.kInternalResistance / numOfMotors); // scale resistance by # of motors (think: parallel circuits)
+    }
+
+    /**
+     * set values of position, velocity, current to whatever you want
+     */
+    public void reset(double position, double velocity, double current){
+        m_position = position;
+        m_current = current;
+        m_velocity = velocity;
     }
 
 
