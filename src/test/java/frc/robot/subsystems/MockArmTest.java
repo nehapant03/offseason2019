@@ -11,17 +11,20 @@ import com.team7419.motors.MotorType;
 
 public class MockArmTest {
 
+    DcMotor armMotor = new DcMotor(MotorType.Cim);
 
-    @Before
-    public void init(){
-       
+    @Test
+    public void getArmValues(){
+       armMotor.step(12, 5, 0, 5);
+       double curPos = armMotor.getPosition();
         
     }
 
+    /** 
+     * current status: gives up when we try to make a PidController
+     */
     @Test
-    public void firstTest() {
-
-        DcMotor armMotor = new DcMotor(MotorType.Cim);
+    public void testPid() {
 
         PIDSource mockEncoderValues = new MockArmPidSource(armMotor);
         
