@@ -1,0 +1,46 @@
+package frc.robot.subsystems;
+
+import org.junit.*;
+
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+
+import com.team7419.motors.DcMotor;
+import com.team7419.motors.MotorType;
+
+public class MockArmTest {
+
+
+    @Before
+    public void init(){
+       
+        
+    }
+
+    @Test
+    public void firstTest() {
+
+        DcMotor armMotor = new DcMotor(MotorType.Cim);
+
+        PIDSource mockEncoderValues = new MockArmPidSource(armMotor);
+        
+        PIDOutput runMotor = new PIDOutput() { // this is where you choose what you want to do w the output of the pid loop
+            @Override
+            public synchronized void pidWrite(double output) {
+                armMotor.step(output, 5, 0, 0.01);
+            }
+        };
+        
+        PIDController armController = new PIDController(.1, 0, .1, mockEncoderValues, runMotor); //new pid controller for gyro stuff
+		armController.setInputRange(0f,  10000.0f); // not sure what upper bound is but like
+		armController.setOutputRange(0.0, 12.0); //output should be from 0 to 12, controlling voltage
+        armController.setContinuous(false); // not circular
+        
+        armController.setPID(0.5, 0, 0.1);
+		armController.enable(); //turn it on
+        armController.setSetpoint(12);
+        System.out.println(armController.get());
+
+    }
+}

@@ -77,6 +77,13 @@ public class DcMotor{
         m_velocity = velocity;
     }
 
+    /**
+     * 
+     * @param voltage voltage given to motor
+     * @param load weight on mechanism
+     * @param externalTorque i.e. gravity
+     * @param timestep just go w 0.01 for now
+     */
     public void step(double voltage, double load, double externalTorque, double timestep){
         double acceleration = (voltage - m_velocity / kV) * kT
         / (kInternalResistance * load) + externalTorque / load;
