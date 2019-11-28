@@ -15,7 +15,7 @@ public enum MotorType{
     /** 
      * 775 pro
      */
-    Am775Pro(2);
+    Pro775(2);
 
     public final int value;
 
