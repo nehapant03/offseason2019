@@ -17,7 +17,7 @@ public class DcMotor{
     protected double m_current;
 
     /**
-     * constructs a DcMotor based on a given type
+     * constructs a DcMotor based on a given MotorType
      */
     public DcMotor(MotorType motorType){
         
@@ -77,6 +77,20 @@ public class DcMotor{
         m_velocity = velocity;
     }
 
+    public void step(double voltage, double load, double externalTorque, double timestep){
+        double acceleration = (voltage - m_velocity / kV) * kT
+        / (kInternalResistance * load) + externalTorque / load;
+        m_velocity += acceleration * timestep;
+        m_position += m_velocity * timestep + .5 * acceleration * timestep
+                * timestep;
+        m_current = load * acceleration * Math.signum(voltage) / kT;
+    }
+
+    public double getPosition(){return m_position;}
+
+    public double getVelocity(){return m_velocity;}
+
+    public double getCurrent(){return m_current;}
 
     private double getkInternalResistance(double kPeakCurrent){
         return 12 / kPeakCurrent;
