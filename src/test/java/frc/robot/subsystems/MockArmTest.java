@@ -17,6 +17,7 @@ public class MockArmTest {
     public void getArmValues(){
        armMotor.step(12, 5, 0, 5);
        double curPos = armMotor.getPosition();
+       System.out.println(curPos);
         
     }
 
