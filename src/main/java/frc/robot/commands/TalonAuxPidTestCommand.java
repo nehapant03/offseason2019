@@ -7,7 +7,6 @@ import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.SensorTerm;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.team7419.TalonFuncs;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
@@ -17,14 +16,22 @@ public class TalonAuxPidTestCommand extends Command {
     public TalonSRX leftMast;
     public TalonSRX rightMast;
 
-    public int kTurnTravelUnitsPerRotation;
-    public int kEncoderUnitsPerRotation;
     public int kTimeoutMs = 30;
+    public double kNeutralDeadband = .001; // minimum allowable
 
-    public double turnP;
-    public double turnI;
-    public double turnD;
-    public double turnF;
+    public double straightP = 0;
+    public double straightI = 0;
+    public double straightD = 0;
+    public double straightF = 0;
+
+    public double turnP = 0;
+    public double turnI = 0;
+    public double turnD = 0;
+    public double turnF = 0;
+
+    public int kIZone = 100;
+    public double kStraightPeakOutput = .5;
+    public double kTurnPeakOutput = 1;
 
     public TalonAuxPidTestCommand(TalonSRX leftMast, TalonSRX rightMast){
         this.leftMast = leftMast;
@@ -34,75 +41,108 @@ public class TalonAuxPidTestCommand extends Command {
 
     @Override
     protected void initialize() {
-        /* factory default to make sure nothing acts up */
-        leftMast.configFactoryDefault();
-        rightMast.configFactoryDefault();
+        /* make sure nothing is moving */
+		rightMast.set(ControlMode.PercentOutput, 0);
+		leftMast.set(ControlMode.PercentOutput, 0);
 
-        /* make sure power output is 0 before we start */
-        leftMast.set(ControlMode.PercentOutput, 0);
-        rightMast.set(ControlMode.PercentOutput, 0);
+		/* factory default just so nothing acts up */
+		rightMast.configFactoryDefault();
+		leftMast.configFactoryDefault();
+		
+		/* put into brake mode, idt its necessary but eh */
+		leftMast.setNeutralMode(NeutralMode.Brake);
+		rightMast.setNeutralMode(NeutralMode.Brake);
+		
+		/* init left talon as master value getter basically for primary pid*/
+		leftMast.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,	1, kTimeoutMs);
+
+		/* make left talon remote sensor for right talon */
+		rightMast.configRemoteFeedbackFilter(leftMast.getDeviceID(), RemoteSensorSource.TalonSRX_SelectedSensor, 0, kTimeoutMs);
+		
+		/* for primary pid, use sum of encoder vals (to be averaged later) */
+		rightMast.configSensorTerm(SensorTerm.Sum0, FeedbackDevice.RemoteSensor0, kTimeoutMs);
+        rightMast.configSensorTerm(SensorTerm.Sum1, FeedbackDevice.CTRE_MagEncoder_Relative, kTimeoutMs);	
         
-        /* put into brake mode */
-        leftMast.setNeutralMode(NeutralMode.Brake);
-        rightMast.setNeutralMode(NeutralMode.Brake);
-
-        /* configure left side as primary pid */
-        leftMast.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, kTimeoutMs); 
-
-        /* configure leftMast as remote sensor for rightMast */
-        rightMast.configRemoteFeedbackFilter(leftMast.getDeviceID(), RemoteSensorSource.TalonSRX_SelectedSensor, 0, kTimeoutMs);
-
-        /* sets up the difference term to be used for turning */
-        rightMast.configSensorTerm(SensorTerm.Diff1, FeedbackDevice.RemoteSensor0, kTimeoutMs);
-        leftMast.configSensorTerm(SensorTerm.Diff0, FeedbackDevice.CTRE_MagEncoder_Relative, kTimeoutMs);
-        // this line says rightMast in sample code but im not convinced that makes any sense
-
-        /* Scale the Feedback Sensor using a coefficient */
-		/**
-		 * Heading units should be scaled to ~4000 per 360 deg, due to the following limitations...
-		 * - Target param for aux PID1 is 18bits with a range of [-131072,+131072] units.
-		 * - Target for aux PID1 in motion profile is 14bits with a range of [-8192,+8192] units.
-		 *  ... so at 3600 units per 360', that ensures 0.1 degree precision in firmware closed-loop
-		 *  and motion profile trajectory points can range +-2 rotations.
-		 */
-        rightMast.configSelectedFeedbackCoefficient(kTurnTravelUnitsPerRotation / kEncoderUnitsPerRotation, 1, kTimeoutMs);
-
-        /* configure output and sensor direction */
+		/* use encoder deltas for adjustments */
+		rightMast.configSensorTerm(SensorTerm.Diff1, FeedbackDevice.RemoteSensor0, kTimeoutMs);
+		rightMast.configSensorTerm(SensorTerm.Diff0, FeedbackDevice.CTRE_MagEncoder_Relative, kTimeoutMs);
+		
+		/* use sum of encoder vals for primary pid basically */
+		rightMast.configSelectedFeedbackSensor(	FeedbackDevice.SensorSum, 0, kTimeoutMs);
+		
+		/* this is where we average */
+		rightMast.configSelectedFeedbackCoefficient(0.5, 0, kTimeoutMs);
+		
+		/* use encoder deltas for aux pid */
+		rightMast.configSelectedFeedbackSensor(FeedbackDevice.SensorDifference, 1, kTimeoutMs);
+		
+		/* unclear as to why we are scaling the coeff but like eh */
+		rightMast.configSelectedFeedbackCoefficient(1, 1, kTimeoutMs);
+		/* output and sensor directions */
 		leftMast.setInverted(false);
 		leftMast.setSensorPhase(true);
 		rightMast.setInverted(true);
-        rightMast.setSensorPhase(true);
-        
-        /* set status frame periods */
-        rightMast.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20, kTimeoutMs);
-		rightMast.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 20, kTimeoutMs); 
-		leftMast.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5, kTimeoutMs); // used remotely by right side
+		rightMast.setSensorPhase(true);
+		
+		/* set status frame periods so data is non stale allegedly */
+		rightMast.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20, kTimeoutMs);
+		rightMast.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 20, kTimeoutMs);
+		rightMast.setStatusFramePeriod(StatusFrame.Status_14_Turn_PIDF1, 20, kTimeoutMs);
+		rightMast.setStatusFramePeriod(StatusFrame.Status_10_Targets, 20, kTimeoutMs);
+		leftMast.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5, kTimeoutMs);
 
-        /* configure neutral deadband */
-        leftMast.configNeutralDeadband(.001, kTimeoutMs); // using minimum val bc like whatever
-        rightMast.configNeutralDeadband(.001, kTimeoutMs);
+		/* configure neutral deadband, unclear as to what it does but like */
+		rightMast.configNeutralDeadband(kNeutralDeadband, kTimeoutMs);
+		leftMast.configNeutralDeadband(kNeutralDeadband, kTimeoutMs);
+		
+		/* motion magic config */
+		rightMast.configMotionAcceleration(2000, kTimeoutMs);
+		rightMast.configMotionCruiseVelocity(2000, kTimeoutMs);
 
-        /* set max values for peak output */
-        leftMast.configPeakOutputForward(1, kTimeoutMs);
-        leftMast.configPeakOutputReverse(-1, kTimeoutMs);
-        rightMast.configPeakOutputForward(1, kTimeoutMs);
-        rightMast.configPeakOutputReverse(-1, kTimeoutMs);
+		/**
+		 * Max out the peak output (for all modes).  
+		 * However you can limit the output of a given PID object with configClosedLoopPeakOutput().
+		 */
+		leftMast.configPeakOutputForward(+1.0, kTimeoutMs);
+		leftMast.configPeakOutputReverse(-1.0, kTimeoutMs);
+		rightMast.configPeakOutputForward(+1.0, kTimeoutMs);
+		rightMast.configPeakOutputReverse(-1.0, kTimeoutMs);
 
-        TalonFuncs.setPIDFConstants(1, rightMast, turnP, turnI, turnD, turnF);
+		/* FPID Gains for distance servo */
+		rightMast.config_kP(0, straightP, kTimeoutMs);
+		rightMast.config_kI(0, straightI, kTimeoutMs);
+		rightMast.config_kD(0, straightD, kTimeoutMs);
+		rightMast.config_kF(0, straightF, kTimeoutMs);
+		rightMast.config_IntegralZone(0, kIZone, kTimeoutMs);
+		rightMast.configClosedLoopPeakOutput(0, kStraightPeakOutput, kTimeoutMs);
+		rightMast.configAllowableClosedloopError(0, 0, kTimeoutMs);
 
-        rightMast.config_IntegralZone(1, 200, kTimeoutMs); // prevents I term from going crazy
-		rightMast.configClosedLoopPeakOutput(1, 1, kTimeoutMs); // sets max closed loop output
-        rightMast.configAllowableClosedloopError(1, 0, kTimeoutMs); // minimize closed loop error
-        
-        // 1 ms per loop, can be slowed down if needed
-        int closedLoopTimeMs = 1;
-        rightMast.configClosedLoopPeriod(0, closedLoopTimeMs, kTimeoutMs);
-        rightMast.configClosedLoopPeriod(1, closedLoopTimeMs, kTimeoutMs);
+		/* FPID Gains for turn servo */
+		rightMast.config_kP(1, turnP, kTimeoutMs);
+		rightMast.config_kI(1, turnI, kTimeoutMs);
+		rightMast.config_kD(1, turnD, kTimeoutMs);
+		rightMast.config_kF(1, turnF, kTimeoutMs);
+		rightMast.config_IntegralZone(1, kIZone, kTimeoutMs);
+		rightMast.configClosedLoopPeakOutput(1, kTurnPeakOutput, kTimeoutMs);
+		rightMast.configAllowableClosedloopError(1, 0, kTimeoutMs);
 
-        /* false means talon's local output is PID0 + PID1, and other side Talon is PID0 - PID1
-        * true means talon's local output is PID0 - PID1, and other side Talon is PID0 + PID1
-        */
-       rightMast.configAuxPIDPolarity(false, kTimeoutMs); // this is completely arbitrary and may be wrong
+		/**
+		 * 1ms per loop.  PID loop can be slowed down if need be.
+		 * For example,
+		 * - if sensor updates are too slow
+		 * - sensor deltas are very small per update, so derivative error never gets large enough to be useful.
+		 * - sensor movement is very slow causing the derivative error to be near zero.
+		 */
+		int closedLoopTimeMs = 1;
+		rightMast.configClosedLoopPeriod(0, closedLoopTimeMs, kTimeoutMs);
+		rightMast.configClosedLoopPeriod(1, closedLoopTimeMs, kTimeoutMs);
+
+		/**
+		 * configAuxPIDPolarity(boolean invert, int timeoutMs)
+		 * false means talon's local output is PID0 + PID1, and other side Talon is PID0 - PID1
+		 * true means talon's local output is PID0 - PID1, and other side Talon is PID0 + PID1
+		 */
+		rightMast.configAuxPIDPolarity(false, kTimeoutMs);
 
 
     }
