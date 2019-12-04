@@ -1,7 +1,9 @@
 package frc.robot.subsystems.drive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.FollowerType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.SensorTerm;
@@ -149,6 +151,12 @@ public class TalonAuxPidTestCommand extends Command {
 
     @Override
     protected void execute(){
+
+		rightMast.selectProfileSlot(0, 0);
+		rightMast.selectProfileSlot(1, 1);
+
+		rightMast.set(ControlMode.MotionMagic, 100, DemandType.AuxPID, 0);
+		leftMast.follow(rightMast, FollowerType.AuxOutput1);
 
     }
 

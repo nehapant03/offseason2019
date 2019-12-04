@@ -5,6 +5,7 @@ import org.junit.*;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 
 import com.team7419.motors.DcMotor;
 import com.team7419.motors.MotorType;
@@ -28,6 +29,7 @@ public class MockArmTest {
     public void testPid() {
 
         PIDSource mockEncoderValues = new MockArmPidSource(armMotor);
+        mockEncoderValues.setPIDSourceType(PIDSourceType.kRate);
         
         PIDOutput runMotor = new PIDOutput() { // this is where you choose what you want to do w the output of the pid loop
             @Override
@@ -44,6 +46,7 @@ public class MockArmTest {
         armController.setPID(0.5, 0, 0.1);
 		armController.enable(); //turn it on
         armController.setSetpoint(12);
+        armController.close();
         System.out.println(armController.get());
 
     }
