@@ -4,15 +4,15 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.commands.ArcadeCommand;
-import frc.robot.commands.TankCommand;
-import frc.robot.subsystems.DriveBaseSub;
+import frc.robot.subsystems.arm.HallEffect;
+import frc.robot.subsystems.drive.*;
  
 public class Robot extends TimedRobot {
   public static OI oi;
   public static DriveBaseSub driveBase;
   public static ArcadeCommand arcade;
   public static TankCommand tank;
+  public static HallEffect hallEffect;
 
   @Override
   public void robotInit() {
@@ -20,6 +20,7 @@ public class Robot extends TimedRobot {
     driveBase = new DriveBaseSub();
     arcade = new ArcadeCommand(oi.joystick, driveBase.leftSide, driveBase.rightSide, .4, .4);
     tank = new TankCommand(oi.joystick, driveBase.leftSide, driveBase.rightSide, .2, .4);
+    hallEffect = new HallEffect();
   }
 
   @Override

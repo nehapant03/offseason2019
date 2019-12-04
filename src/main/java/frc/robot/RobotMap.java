@@ -7,7 +7,10 @@ public enum RobotMap {
   leftTalon(1),
   rightTalon(2),
   leftVictor(0),
-  rightVictor(3);
+  rightVictor(3),
+
+  //hall effect dio port number
+  hallEffect(1);
   
   public final int value; 
   

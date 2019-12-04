@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.subsystems.drive;
 
 import edu.wpi.first.wpilibj.command.Command;
 import com.team7419.MotorGroup;
@@ -15,7 +15,7 @@ import frc.robot.*;
 /**
  * Reusable arcade command
  */
-public class TankCommand extends Command {
+public class ArcadeCommand extends Command {
 
   private MotorGroup leftSide;
   private MotorGroup rightSide;
@@ -30,7 +30,7 @@ public class TankCommand extends Command {
    * @param kStraight 
    * @param kTurn
    */
-  public TankCommand(PaddedXbox joystick, MotorGroup leftSide, MotorGroup rightSide, double kStraight, double kTurn){
+  public ArcadeCommand(PaddedXbox joystick, MotorGroup leftSide, MotorGroup rightSide, double kStraight, double kTurn){
     this.joystick = joystick;
     this.leftSide = leftSide;
     this.rightSide = rightSide;
@@ -46,19 +46,10 @@ public class TankCommand extends Command {
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {
-
-    double leftPower = joystick.getLeftY();
-    double rightPower = joystick.getRightY();
-
-    if(leftPower * rightPower > 0){ //going in same direction, robot is straight
-        leftPower *= kStraight;
-        rightPower *= kStraight;
-    }
-    else{ //opp directions, robot is turning
-        leftPower *= kTurn;
-        rightPower *= kTurn;
-    }
+public void execute() {
+    
+    double leftPower = kTurn * joystick.getRightX() - kStraight * joystick.getLeftY();
+    double rightPower = kTurn * joystick.getRightX() + kStraight * joystick.getLeftY();
 
     leftSide.setPower(leftPower);
     rightSide.setPower(rightPower);
