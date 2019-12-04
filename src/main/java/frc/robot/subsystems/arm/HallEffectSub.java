@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
-public class HallEffect extends Subsystem {
+public class HallEffectSub extends Subsystem {
     
     DigitalInput sensor;
 
-  public HallEffect(){
+  public HallEffectSub(){
     
     sensor = new DigitalInput(RobotMap.hallEffect.value);
 
