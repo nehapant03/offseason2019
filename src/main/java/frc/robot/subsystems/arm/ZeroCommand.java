@@ -1,6 +1,7 @@
 package frc.robot.subsystems.arm;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 
 public class ZeroCommand extends Command{
 
@@ -11,7 +12,7 @@ public class ZeroCommand extends Command{
 
     @Override
     public void execute(){
-
+        Robot.arm.setPower(-.1);
     }
 
     @Override

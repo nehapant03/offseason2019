@@ -6,6 +6,9 @@ import frc.robot.Robot;
 
 public class PrintHallEffectVals extends Command{
 
+    public PrintHallEffectVals(){
+        requires(Robot.hallEffect);
+    }
     @Override
     public void initialize(){
 

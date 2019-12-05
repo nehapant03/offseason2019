@@ -20,6 +20,7 @@ public class DriveBaseSub extends Subsystem {
   public MotorGroup rightSide;
   
   public DriveBaseSub(){
+    
     leftFol = new VictorSPX(RobotMap.leftVictor.value);
 		rightFol = new VictorSPX(RobotMap.rightVictor.value);
 		leftMast = new TalonSRX(RobotMap.leftTalon.value);
@@ -32,6 +33,18 @@ public class DriveBaseSub extends Subsystem {
 
     leftSide.followMaster();
     rightSide.followMaster();
+
+    leftMast.neutralOutput();
+		leftMast.setSensorPhase(false);
+    leftMast.configNominalOutputForward(0, 0);
+		leftMast.configNominalOutputReverse(0, 0);
+    leftMast.configClosedloopRamp(.2, 0);
+        
+    rightMast.neutralOutput();
+		rightMast.setSensorPhase(false);
+    rightMast.configNominalOutputForward(0, 0);
+		rightMast.configNominalOutputReverse(0, 0);
+		rightMast.configClosedloopRamp(.2, 0);
 
     TalonFuncs.configEncoder(leftMast);
     TalonFuncs.configEncoder(rightMast);
