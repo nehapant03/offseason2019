@@ -62,6 +62,8 @@ public class TalonAuxPidTestCommand extends Command {
 		// /* factory default just so nothing acts up */
 		rightMast.configFactoryDefault();
 		leftMast.configFactoryDefault();
+
+
 		
 		// /* put into brake mode, idt its necessary but eh */
 		leftMast.setNeutralMode(NeutralMode.Brake);
@@ -93,10 +95,10 @@ public class TalonAuxPidTestCommand extends Command {
 		/* unclear as to why we are scaling the coeff but like eh */
 		rightMast.configSelectedFeedbackCoefficient(1, 1, kTimeoutMs);
 		/* output and sensor directions */
-		leftMast.setInverted(false);
-		leftMast.setSensorPhase(true);
-		rightMast.setInverted(true);
-		rightMast.setSensorPhase(true);
+		// leftMast.setInverted(false);
+		// leftMast.setSensorPhase(true);
+		// rightMast.setInverted(true);
+		// rightMast.setSensorPhase(true);
 		
 		/* set status frame periods so data is non stale allegedly */
 		rightMast.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20, kTimeoutMs);
@@ -117,10 +119,10 @@ public class TalonAuxPidTestCommand extends Command {
 		 * Max out the peak output (for all modes).  
 		 * However you can limit the output of a given PID object with configClosedLoopPeakOutput().
 		 */
-		leftMast.configPeakOutputForward(+1.0, kTimeoutMs);
-		leftMast.configPeakOutputReverse(-1.0, kTimeoutMs);
-		rightMast.configPeakOutputForward(+1.0, kTimeoutMs);
-		rightMast.configPeakOutputReverse(-1.0, kTimeoutMs);
+		leftMast.configPeakOutputForward(+0.5, kTimeoutMs);
+		leftMast.configPeakOutputReverse(-0.5, kTimeoutMs);
+		rightMast.configPeakOutputForward(+0.5, kTimeoutMs);
+		rightMast.configPeakOutputReverse(-0.5, kTimeoutMs);
 
 		/* FPID Gains for distance servo */
 		rightMast.config_kP(0, straightP, kTimeoutMs);
