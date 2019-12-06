@@ -53,6 +53,7 @@ public class ArcadeCommand extends Command {
   @Override
 public void execute() {
     
+    SmartDashboard.putString("command status", "arcade");
     double leftPower = kTurn * joystick.getRightX() - kStraight * joystick.getLeftY();
     double rightPower = kTurn * joystick.getRightX() + kStraight * joystick.getLeftY();
 
@@ -60,7 +61,11 @@ public void execute() {
     rightSide.setPower(rightPower);
 
     SmartDashboard.putNumber("leftMast", Robot.driveBase.leftMast.getSelectedSensorPosition(0));
-		SmartDashboard.putNumber("rightMast", Robot.driveBase.rightMast.getSelectedSensorPosition(0));
+    SmartDashboard.putNumber("rightMast", Robot.driveBase.rightMast.getSelectedSensorPosition(0));
+    
+    SmartDashboard.putNumber("leftMastOutput", Robot.driveBase.leftMast.getMotorOutputPercent());
+    SmartDashboard.putNumber("rightMastOutput", Robot.driveBase.rightMast.getMotorOutputPercent());
+
   }
 
   // Make this return true when this Command no longer needs to run execute()

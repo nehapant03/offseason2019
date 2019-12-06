@@ -80,7 +80,7 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
   }
 
-  public TalonSRX getRightMast(){return driveBase.rightMast;}
+  public static TalonSRX getRightMast(){return driveBase.rightMast;}
   public TalonSRX getLeftMast(){return driveBase.leftMast;}
 
 }

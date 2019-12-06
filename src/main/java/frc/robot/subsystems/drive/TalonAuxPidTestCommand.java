@@ -99,6 +99,7 @@ public class TalonAuxPidTestCommand extends Command {
 		// leftMast.setSensorPhase(true);
 		// rightMast.setInverted(true);
 		// rightMast.setSensorPhase(true);
+		//Robot.driveBase.;
 		
 		/* set status frame periods so data is non stale allegedly */
 		rightMast.setStatusFramePeriod(StatusFrame.Status_12_Feedback1, 20, kTimeoutMs);

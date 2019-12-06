@@ -11,6 +11,12 @@ import frc.robot.RobotMap;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+/**
+ * alright so fun ~feature~ when the robot's going forward the right
+ * side is definitely getting negative power. i kind of hate that but like
+ * i was too dumb to check that when i first started writing for the drivetrain
+ * but like you live you learn ig
+ */
 public class DriveBaseSub extends Subsystem {
 
 	private VictorSPX leftFol;
