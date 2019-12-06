@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
     driveBase = new DriveBaseSub();
     arcade = new ArcadeCommand(oi.joystick, driveBase.leftSide, driveBase.rightSide, .4, .4);
     tank = new TankCommand(oi.joystick, driveBase.leftSide, driveBase.rightSide, .2, .4);
-    auxPidTest = new TalonAuxPidTestCommand(driveBase.leftMast, driveBase.rightMast, 24);
+    auxPidTest = new TalonAuxPidTestCommand(driveBase.leftMast, driveBase.rightMast, 12);
     hallEffect = new HallEffectSub();
     potentiometer = new PotentiometerSub();
     arm = new ArmSub();
@@ -59,11 +59,20 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    auxPidTest.start();
+    //arcade.start();
   }
 
   @Override
   public void teleopPeriodic() {
+    if(oi.joystick.getA()){
+      auxPidTest.start();
+    }
+    else if(oi.joystick.getB()){
+      auxPidTest.cancel();
+    }
+    else if(oi.joystick.getXButton()){
+      arcade.start();
+    }
     Scheduler.getInstance().run();
   }
 

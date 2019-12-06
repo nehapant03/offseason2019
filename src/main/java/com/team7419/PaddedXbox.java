@@ -8,7 +8,7 @@ public class PaddedXbox extends XboxController{
 		super(F310Map.f310Main.value);
     }
 
-    enum F310Map{
+    public enum F310Map{
         //Input Map
         f310Main(0),
         f310Secondary(1),

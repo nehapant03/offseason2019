@@ -10,15 +10,18 @@ package frc.robot;
 import com.team7419.PaddedXbox;
 
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.*;
+import frc.robot.subsystems.drive.TalonAuxPidTestCommand;
 
 public class OI {
 
+  // pretending to be productive ft henry
   public PaddedXbox joystick = new PaddedXbox();
-  public JoystickButton dpad;
+  //public JoystickButton buttonA = new JoystickButton(joystick, 1);
   
   public OI(){
-    dpad = new JoystickButton(joystick, joystick.getPOV());
-    //dpad.cancelWhenPressed(new ArcadeDrive(oi.joystick, driveBase.leftSide, driveBase.rightSide, .4, .4));
+    // buttonA = new JoystickButton(joystick, 1);
+    //buttonA.whenPressed(new TalonAuxPidTestCommand(Robot.driveBase.leftMast, Robot.driveBase.rightMast, 12));
   }
 
   

@@ -5,6 +5,7 @@ import com.team7419.Initers;
 import com.team7419.MotorGroup;
 import com.team7419.TalonFuncs;
 
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -51,8 +52,9 @@ public class DriveBaseSub extends Subsystem {
   }
 
   @Override
-  public void initDefaultCommand() {} 
-    //imma not do this bc we want to feed arcade constructor useful things in Robot.java
+  public void initDefaultCommand() {
+    setDefaultCommand(new ArcadeCommand(Robot.oi.joystick, Robot.driveBase.leftSide, Robot.driveBase.rightSide, .4, .4));
+  } 
     
   public MotorGroup getLeftSide(){return leftSide;}
   public MotorGroup getRightSide(){return rightSide;}

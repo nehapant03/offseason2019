@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import com.team7419.MotorGroup;
 import com.team7419.PaddedXbox;
 import frc.robot.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 /**
  * Reusable arcade command
@@ -42,6 +44,9 @@ public class ArcadeCommand extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    // /* factory default just so nothing acts up */
+		Robot.driveBase.rightMast.configFactoryDefault();
+		Robot.driveBase.leftMast.configFactoryDefault();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -53,6 +58,9 @@ public void execute() {
 
     leftSide.setPower(leftPower);
     rightSide.setPower(rightPower);
+
+    SmartDashboard.putNumber("leftMast", Robot.driveBase.leftMast.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("rightMast", Robot.driveBase.rightMast.getSelectedSensorPosition(0));
   }
 
   // Make this return true when this Command no longer needs to run execute()
