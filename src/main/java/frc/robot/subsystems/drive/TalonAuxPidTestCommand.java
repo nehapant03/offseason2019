@@ -24,7 +24,7 @@ public class TalonAuxPidTestCommand extends Command {
     public int kTimeoutMs = 30;
     public double kNeutralDeadband = .001; // minimum allowable
 
-    public double straightP = 0.1;
+    public double straightP = 0.01;
     public double straightI = 0;
     public double straightD = 0;
     public double straightF = 0;
@@ -159,7 +159,7 @@ public class TalonAuxPidTestCommand extends Command {
 		 * false means talon's local output is PID0 + PID1, and other side Talon is PID0 - PID1
 		 * true means talon's local output is PID0 - PID1, and other side Talon is PID0 + PID1
 		 */
-		rightMast.configAuxPIDPolarity(true, kTimeoutMs);
+		rightMast.configAuxPIDPolarity(false, kTimeoutMs);
 
 
     }

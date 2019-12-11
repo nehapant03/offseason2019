@@ -81,6 +81,6 @@ public class Robot extends TimedRobot {
   }
 
   public static TalonSRX getRightMast(){return driveBase.rightMast;}
-  public TalonSRX getLeftMast(){return driveBase.leftMast;}
+  public static TalonSRX getLeftMast(){return driveBase.leftMast;}
 
 }
