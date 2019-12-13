@@ -18,6 +18,7 @@ public class Robot extends TimedRobot {
   public static PotentiometerSub potentiometer;
   public static ArmSub arm;
   public static TalonAuxPidTestCommand auxPidTest;
+  public static RunWithMotionMagic motionMagic;
 
   @Override
   public void robotInit() {
@@ -29,6 +30,7 @@ public class Robot extends TimedRobot {
     hallEffect = new HallEffectSub();
     potentiometer = new PotentiometerSub();
     arm = new ArmSub();
+    motionMagic = new RunWithMotionMagic(24);
   }
 
   @Override
@@ -65,10 +67,10 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     if(oi.joystick.getA()){
-      auxPidTest.start();
+      motionMagic.start();
     }
     else if(oi.joystick.getB()){
-      auxPidTest.cancel();
+      motionMagic.cancel();
     }
     else if(oi.joystick.getXButton()){
       arcade.start();

@@ -9,10 +9,6 @@ package frc.robot;
 
 import com.team7419.PaddedXbox;
 
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.*;
-import frc.robot.subsystems.drive.TalonAuxPidTestCommand;
-
 public class OI {
 
   // pretending to be productive ft henry

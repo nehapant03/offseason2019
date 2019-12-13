@@ -1,13 +1,19 @@
 package frc.robot.subsystems.drive;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.team7419.math.DriveBaseConversions;
 import com.team7419.math.UnitConversions;
 
+import edu.wpi.first.wpilibj.Ultrasonic.Unit;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class RunWithMotionMagic extends Command{
 
-    public RunWithMotionMagic(){
+    private double setpoint;
+
+    public RunWithMotionMagic(double setpoint){
+        this.setpoint = setpoint;
         requires(Robot.driveBase);
     }
 
@@ -27,6 +33,12 @@ public class RunWithMotionMagic extends Command{
 
     @Override
     public void execute(){
+
+        double leftSet = DriveBaseConversions.inchesToTicks(setpoint) + Robot.getLeftMast().getSelectedSensorPosition();
+        double rightSet = DriveBaseConversions.inchesToTicks(setpoint) + Robot.getRightMast().getSelectedSensorPosition();
+
+        Robot.getLeftMast().set(ControlMode.MotionMagic, leftSet);
+		Robot.getRightMast().set(ControlMode.MotionMagic, rightSet);
         
     }
 
