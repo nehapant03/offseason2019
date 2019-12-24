@@ -24,13 +24,13 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     oi = new OI();
     driveBase = new DriveBaseSub();
-    arcade = new ArcadeCommand(oi.joystick, driveBase.leftSide, driveBase.rightSide, .4, .4);
+    arcade = new ArcadeCommand(oi.joystick, driveBase.leftSide, driveBase.rightSide, .2, .2);
     tank = new TankCommand(oi.joystick, driveBase.leftSide, driveBase.rightSide, .2, .4);
     auxPidTest = new TalonAuxPidTestCommand(driveBase.leftMast, driveBase.rightMast, 12);
     hallEffect = new HallEffectSub();
     potentiometer = new PotentiometerSub();
     arm = new ArmSub();
-    motionMagic = new RunWithMotionMagic(24);
+    motionMagic = new RunWithMotionMagic(12);
   }
 
   @Override

@@ -42,7 +42,7 @@ public class DriveBaseSub extends Subsystem {
     rightSide.followMaster();
 
     leftMast.neutralOutput();
-		leftMast.setSensorPhase(false);
+		leftMast.setSensorPhase(true);
     leftMast.configNominalOutputForward(0, 0);
 		leftMast.configNominalOutputReverse(0, 0);
     leftMast.configClosedloopRamp(.2, 0);
@@ -55,6 +55,8 @@ public class DriveBaseSub extends Subsystem {
 
     TalonFuncs.configEncoder(leftMast);
     TalonFuncs.configEncoder(rightMast);
+
+    
   }
 
   @Override

@@ -59,6 +59,11 @@ public void execute() {
     SmartDashboard.putNumber("leftMastOutput", Robot.driveBase.leftMast.getMotorOutputPercent());
     SmartDashboard.putNumber("rightMastOutput", Robot.driveBase.rightMast.getMotorOutputPercent());
 
+    if(Robot.oi.joystick.getRightShoulder()){
+      Robot.getLeftMast().getSensorCollection().setQuadraturePosition(0, 10);
+      Robot.getRightMast().getSensorCollection().setQuadraturePosition(0, 10);
+    }
+
   }
 
   // Make this return true when this Command no longer needs to run execute()
