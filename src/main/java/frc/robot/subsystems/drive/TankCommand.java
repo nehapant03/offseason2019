@@ -49,7 +49,7 @@ public class TankCommand extends Command {
   protected void execute() {
 
     double leftPower = joystick.getLeftY();
-    double rightPower = joystick.getRightY();
+    double rightPower = -joystick.getRightY();
 
     if(leftPower * rightPower > 0){ //going in same direction, robot is straight
         leftPower *= kStraight;

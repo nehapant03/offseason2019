@@ -16,7 +16,7 @@ public class HallEffectSub extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new PrintHallEffectVals());
+    //setDefaultCommand(new PrintHallEffectVals());
   } 
 
 }
