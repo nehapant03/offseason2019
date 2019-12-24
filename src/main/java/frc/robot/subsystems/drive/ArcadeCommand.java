@@ -48,7 +48,7 @@ public void execute() {
     
     SmartDashboard.putString("command status", "arcade");
     double leftPower = kTurn * joystick.getRightX() - kStraight * joystick.getLeftY();
-    double rightPower = kTurn * joystick.getRightX() + kStraight * joystick.getLeftY();
+    double rightPower = -kTurn * joystick.getRightX() - kStraight * joystick.getLeftY();
 
     leftSide.setPower(leftPower);
     rightSide.setPower(rightPower);

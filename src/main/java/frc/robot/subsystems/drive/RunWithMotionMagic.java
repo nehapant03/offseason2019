@@ -39,8 +39,8 @@ public class RunWithMotionMagic extends Command{
         TalonFuncs.setPIDFConstants(0, Robot.getLeftMast(), .6, 0, 0.1, 0);
         TalonFuncs.setPIDFConstants(0, Robot.getRightMast(), .6, 0, 0.1, 0);
 
-        double leftSet = DriveBaseConversions.inchesToTicks(setpoint) + Robot.getLeftMast().getSelectedSensorPosition(0);
-        double rightSet = DriveBaseConversions.inchesToTicks(setpoint) + Robot.getRightMast().getSelectedSensorPosition(0);
+        double leftSet = DriveBaseConversions.inchesToTicks(setpoint);
+        double rightSet = DriveBaseConversions.inchesToTicks(setpoint);
 
         SmartDashboard.putNumber("leftSet", leftSet);
         SmartDashboard.putNumber("rightSet", rightSet);
