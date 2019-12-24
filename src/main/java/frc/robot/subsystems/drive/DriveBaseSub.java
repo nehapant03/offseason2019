@@ -66,8 +66,8 @@ public class DriveBaseSub extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    //setDefaultCommand(new ArcadeCommand(Robot.oi.joystick, Robot.driveBase.leftSide, Robot.driveBase.rightSide, .4, .4));
-    setDefaultCommand(new TankCommand(Robot.oi.joystick, Robot.driveBase.leftSide, Robot.driveBase.rightSide, .8, .2));
+    setDefaultCommand(new ArcadeCommand(Robot.oi.joystick, Robot.driveBase.leftSide, Robot.driveBase.rightSide, .4, .4));
+    // setDefaultCommand(new TankCommand(Robot.oi.joystick, Robot.driveBase.leftSide, Robot.driveBase.rightSide, .8, .2));
   } 
     
   public MotorGroup getLeftSide(){return leftSide;}

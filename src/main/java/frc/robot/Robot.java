@@ -26,11 +26,11 @@ public class Robot extends TimedRobot {
     driveBase = new DriveBaseSub();
     arcade = new ArcadeCommand(oi.joystick, driveBase.leftSide, driveBase.rightSide, .2, .2);
     tank = new TankCommand(oi.joystick, driveBase.leftSide, driveBase.rightSide, .2, .4);
-    auxPidTest = new TalonAuxPidTestCommand(driveBase.leftMast, driveBase.rightMast, 12);
+    auxPidTest = new TalonAuxPidTestCommand(driveBase.leftMast, driveBase.rightMast, 24);
     hallEffect = new HallEffectSub();
     potentiometer = new PotentiometerSub();
     arm = new ArmSub();
-    motionMagic = new RunWithMotionMagic(12);
+    motionMagic = new RunWithMotionMagic(36);
   }
 
   @Override
