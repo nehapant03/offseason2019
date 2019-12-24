@@ -48,10 +48,12 @@ public class DriveBaseSub extends Subsystem {
     leftMast.configClosedloopRamp(.2, 0);
         
     rightMast.neutralOutput();
-		rightMast.setSensorPhase(false);
+		rightMast.setSensorPhase(true);
     rightMast.configNominalOutputForward(0, 0);
 		rightMast.configNominalOutputReverse(0, 0);
-		rightMast.configClosedloopRamp(.2, 0);
+    rightMast.configClosedloopRamp(.2, 0);
+    
+    // rightSide.setInverted(true);
 
     TalonFuncs.configEncoder(leftMast);
     TalonFuncs.configEncoder(rightMast);

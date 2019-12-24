@@ -23,8 +23,8 @@ public class RunWithMotionMagic extends Command{
 
         SmartDashboard.putString("command status", "motion magic test");
         /* factory default just so nothing acts up */
-		// Robot.getRightMast().configFactoryDefault();
-        // Robot.getLeftMast().configFactoryDefault();
+		Robot.getRightMast().configFactoryDefault();
+        Robot.getLeftMast().configFactoryDefault();
         
         Robot.getLeftMast().getSensorCollection().setQuadraturePosition(0, 10);
         Robot.getRightMast().getSensorCollection().setQuadraturePosition(0, 10); 
@@ -36,8 +36,8 @@ public class RunWithMotionMagic extends Command{
         Robot.getRightMast().configMotionCruiseVelocity(5375, 0);
         Robot.getRightMast().configMotionAcceleration(UnitConversions.mPSToTicksP100Ms(.7), 0);  
         
-        TalonFuncs.setPIDFConstants(0, Robot.getLeftMast(), .05, 0, 0, 0);
-        TalonFuncs.setPIDFConstants(0, Robot.getRightMast(), .05, 0, 0, 0);
+        TalonFuncs.setPIDFConstants(0, Robot.getLeftMast(), .6, 0, 0.1, 0);
+        TalonFuncs.setPIDFConstants(0, Robot.getRightMast(), .6, 0, 0.1, 0);
 
         double leftSet = DriveBaseConversions.inchesToTicks(setpoint) + Robot.getLeftMast().getSelectedSensorPosition(0);
         double rightSet = DriveBaseConversions.inchesToTicks(setpoint) + Robot.getRightMast().getSelectedSensorPosition(0);
