@@ -15,7 +15,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
  * alright so fun ~feature~ when the robot's going forward the right
  * side is definitely getting negative power. i kind of hate that but like
  * i was too dumb to check that when i first started writing for the drivetrain
- * but like you live you learn ig
+ * but like you live you learn you laugh ig
  */
 public class DriveBaseSub extends Subsystem {
 
@@ -48,7 +48,6 @@ public class DriveBaseSub extends Subsystem {
     leftMast.configClosedloopRamp(.2, 0);
         
     rightMast.neutralOutput();
-		// rightMast.setSensorPhase(true);
     rightMast.configNominalOutputForward(0, 0);
 		rightMast.configNominalOutputReverse(0, 0);
     rightMast.configClosedloopRamp(.2, 0);
@@ -56,8 +55,6 @@ public class DriveBaseSub extends Subsystem {
     rightSide.setInverted(true);
     rightMast.setSensorPhase(true);
     
-    // rightSide.setInverted(true);
-
     TalonFuncs.configEncoder(leftMast);
     TalonFuncs.configEncoder(rightMast);
 

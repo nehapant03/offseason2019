@@ -15,6 +15,7 @@ public class RunWithMotionMagic extends Command{
     private double leftMastOutput;
     private double rightMastOutput;
     private boolean started;
+    private long startTime;
 
     public RunWithMotionMagic(double setpoint){
         this.setpoint = setpoint;
@@ -53,7 +54,7 @@ public class RunWithMotionMagic extends Command{
         Robot.getLeftMast().set(ControlMode.MotionMagic, leftSet);
         Robot.getRightMast().set(ControlMode.MotionMagic, rightSet);
         
-        started = true;
+        startTime = System.currentTimeMillis();
 
     }
 
@@ -69,6 +70,12 @@ public class RunWithMotionMagic extends Command{
         double rightMastOutput = Robot.driveBase.rightMast.getMotorOutputPercent();
         SmartDashboard.putNumber("leftMastOutput", leftMastOutput);
         SmartDashboard.putNumber("rightMastOutput", rightMastOutput);
+
+        if(System.currentTimeMillis() - startTime > 500){
+            started = true;
+        }
+
+        SmartDashboard.putBoolean("started", started);
         
     }
 
@@ -79,6 +86,7 @@ public class RunWithMotionMagic extends Command{
         }
         else{
             return false;
+
         }
     }
 
