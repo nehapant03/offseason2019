@@ -4,9 +4,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.subsystems.arm.ArmSub;
-import frc.robot.subsystems.arm.HallEffectSub;
-import frc.robot.subsystems.arm.PotentiometerSub;
+import frc.robot.subsystems.arm.*;
+import frc.robot.subsystems.dashboard.*;
 import frc.robot.subsystems.drive.*;
  
 public class Robot extends TimedRobot {
@@ -19,6 +18,7 @@ public class Robot extends TimedRobot {
   public static ArmSub arm;
   public static TalonAuxPidTestCommand auxPidTest;
   public static RunWithMotionMagic motionMagic;
+  public static Dashboard dashboard;
 
   @Override
   public void robotInit() {
@@ -31,6 +31,7 @@ public class Robot extends TimedRobot {
     potentiometer = new PotentiometerSub();
     arm = new ArmSub();
     motionMagic = new RunWithMotionMagic(36);
+    dashboard = new Dashboard();
   }
 
   @Override

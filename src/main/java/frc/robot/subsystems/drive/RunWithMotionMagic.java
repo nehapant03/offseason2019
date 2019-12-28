@@ -5,6 +5,7 @@ import com.team7419.TalonFuncs;
 import com.team7419.math.DriveBaseConversions;
 import com.team7419.math.UnitConversions;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
@@ -40,7 +41,7 @@ public class RunWithMotionMagic extends Command{
         Robot.getRightMast().configMotionCruiseVelocity(5375, 0);
         Robot.getRightMast().configMotionAcceleration(UnitConversions.mPSToTicksP100Ms(.7), 0);  
         
-        TalonFuncs.setPIDFConstants(0, Robot.getLeftMast(), .6, 0, 0.1, 0);
+        TalonFuncs.setPIDFConstants(0, Robot.getLeftMast(), Robot.dashboard.getkP(), 0, Robot.dashboard.getkD(), 0);
         TalonFuncs.setPIDFConstants(0, Robot.getRightMast(), .6, 0, 0.1, 0);
 
         double leftSet = DriveBaseConversions.inchesToTicks(setpoint);
@@ -81,12 +82,14 @@ public class RunWithMotionMagic extends Command{
 
     @Override
     public boolean isFinished(){
-        if(started && Math.abs(leftMastOutput + rightMastOutput) < 0.01){
+        if(started && Math.abs(leftMastOutput) < 0.01 && Math.abs(rightMastOutput) < 0.01){
+            SmartDashboard.putString("command status", "awkwardly stalling");
+            Timer.delay(1);
             return true;
         }
         else{
             return false;
-
+ 
         }
     }
 
