@@ -16,22 +16,22 @@ public class Robot extends TimedRobot {
   public static HallEffectSub hallEffect;
   public static PotentiometerSub potentiometer;
   public static ArmSub arm;
-  public static TalonAuxPidTestCommand auxPidTest;
   public static RunWithMotionMagic motionMagic;
   public static Dashboard dashboard;
+  public static PathfinderTestCommand pathfinder;
 
   @Override
   public void robotInit() {
     oi = new OI();
     driveBase = new DriveBaseSub();
-    arcade = new ArcadeCommand(oi.joystick, driveBase.leftSide, driveBase.rightSide, .2, .2);
+    arcade = new ArcadeCommand(oi.joystick, driveBase.leftSide, driveBase.rightSide, .4, .4);
     tank = new TankCommand(oi.joystick, driveBase.leftSide, driveBase.rightSide, .2, .4);
-    auxPidTest = new TalonAuxPidTestCommand(driveBase.leftMast, driveBase.rightMast, 24);
     hallEffect = new HallEffectSub();
     potentiometer = new PotentiometerSub();
     arm = new ArmSub();
     motionMagic = new RunWithMotionMagic(36);
     dashboard = new Dashboard();
+    pathfinder = new PathfinderTestCommand();
   }
 
   @Override
@@ -62,16 +62,16 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    //arcade.start();
+    pathfinder.start();
   }
 
   @Override
   public void teleopPeriodic() {
     if(oi.joystick.getA()){
-      motionMagic.start();
+      pathfinder.start();
     }
     else if(oi.joystick.getB()){
-      motionMagic.cancel();
+      pathfinder.cancel();
     }
     else if(oi.joystick.getXButton()){
       arcade.start();
