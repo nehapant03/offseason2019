@@ -19,6 +19,7 @@ public class Robot extends TimedRobot {
   public static RunWithMotionMagic motionMagic;
   public static Dashboard dashboard;
   public static PathfinderTestCommand pathfinder;
+  public static GyroSub gyro;
 
   @Override
   public void robotInit() {
@@ -32,6 +33,7 @@ public class Robot extends TimedRobot {
     motionMagic = new RunWithMotionMagic(36);
     dashboard = new Dashboard();
     pathfinder = new PathfinderTestCommand();
+    gyro = new GyroSub();
   }
 
   @Override
