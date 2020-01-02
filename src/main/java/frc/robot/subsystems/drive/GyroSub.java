@@ -5,7 +5,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 public class GyroSub {
 
-    private AHRS ahrs;
+    public AHRS ahrs;
     
     public void GyroSub(){
         try {
@@ -15,10 +15,11 @@ public class GyroSub {
 			ahrs = new AHRS(SerialPort.Port.kUSB); 
 		} catch (RuntimeException ex ) {
 			System.out.println("Error instantiating navX-MXP: " + ex.getMessage()); 
-		}
+        }
+        this.ahrs = ahrs;
     }
 
-    public double getAngle(){
+    public double getGyroAngle(){
         return ahrs.getAngle();
     }
 }

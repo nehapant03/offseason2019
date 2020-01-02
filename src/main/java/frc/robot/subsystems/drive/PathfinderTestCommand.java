@@ -17,6 +17,10 @@ public class PathfinderTestCommand extends Command{
 
     double leftOutput;
     double rightOutput;
+    double desiredHeading;
+    double gyroHeading;
+    double gyroOutput;
+    double angleDifference;
 
     EncoderFollower left;
     EncoderFollower right;
@@ -28,7 +32,7 @@ public class PathfinderTestCommand extends Command{
     @Override
     public void initialize(){
 
-        SmartDashboard.putString("command status", "initializing");
+        SmartDashboard.putString("command status", "path generation");
 
         // fix the max velocity / acceleration at some point (in the nice enum!)
         // check drivebasefunctions?
@@ -65,7 +69,6 @@ public class PathfinderTestCommand extends Command{
 
         left.configurePIDVA(.5, 0.0, 0.0, 1 / DriveBaseConstants.maxVelocity.value, 0);
         right.configurePIDVA(.5, 0.0, 0.0, 1 / DriveBaseConstants.maxVelocity.value, 0);
-
     }
 
     @Override
@@ -76,11 +79,27 @@ public class PathfinderTestCommand extends Command{
         leftOutput = left.calculate(Robot.getLeftMast().getSelectedSensorPosition(0));
         rightOutput = right.calculate(Robot.getRightMast().getSelectedSensorPosition(0));
 
-        
+        gyroHeading = Robot.gyro.getGyroAngle();
+        desiredHeading = Pathfinder.r2d(left.getHeading());
 
+        // calculate delta angle 
+        angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
+
+        // put it on scale from 0-360
+        angleDifference = angleDifference % 360;
+        
+        // basically just a p controller
+        gyroOutput = 0.8 * (-1.0/80.0) * angleDifference;
+
+        // aux pid logic except it's aux p basically but shh details
+        leftOutput += gyroOutput;
+        rightOutput -= gyroOutput;
+
+        // set motor powers
         Robot.getLeftMast().set(ControlMode.PercentOutput, leftOutput);
         Robot.getRightMast().set(ControlMode.PercentOutput, rightOutput);
 
+        // print motor powers bc like that is useful
         SmartDashboard.putNumber("leftMastOutput", leftOutput);
         SmartDashboard.putNumber("rightMastOutput", rightOutput);
     }
