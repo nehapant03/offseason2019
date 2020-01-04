@@ -25,7 +25,7 @@ public class PathfinderTestCommand extends Command{
     EncoderFollower left;
     EncoderFollower right;
 
-    public void PathfinderTestCommand(){
+    public PathfinderTestCommand(){
         requires(Robot.driveBase);
     }
 
@@ -44,7 +44,7 @@ public class PathfinderTestCommand extends Command{
                                                         30); // jerk because i kinda j wanna make this menos agresivo as they say
         Waypoint[] points = new Waypoint[] {
             // new Waypoint(3, 3, 45),
-            new Waypoint(10, 10, Pathfinder.d2r(-90)),
+            new Waypoint(3, 3, Pathfinder.d2r(-90)),
             new Waypoint(0, 0, 0),
         };
 
@@ -67,8 +67,8 @@ public class PathfinderTestCommand extends Command{
         left.configureEncoder(Robot.getLeftMast().getSelectedSensorPosition(0), 4096, 6);
         right.configureEncoder(Robot.getRightMast().getSelectedSensorPosition(0), 4096, 6);
 
-        left.configurePIDVA(.5, 0.0, 0.0, 1 / DriveBaseConstants.maxVelocity.value, 0);
-        right.configurePIDVA(.5, 0.0, 0.0, 1 / DriveBaseConstants.maxVelocity.value, 0);
+        left.configurePIDVA(.2, 0.0, 0.0, 1 / DriveBaseConstants.maxVelocity.value, 0);
+        right.configurePIDVA(.2, 0.0, 0.0, 1 / DriveBaseConstants.maxVelocity.value, 0);
     }
 
     @Override
@@ -80,6 +80,7 @@ public class PathfinderTestCommand extends Command{
         rightOutput = right.calculate(Robot.getRightMast().getSelectedSensorPosition(0));
 
         gyroHeading = Robot.gyro.getGyroAngle();
+        SmartDashboard.putNumber("gyroHeading", gyroHeading);
         desiredHeading = Pathfinder.r2d(left.getHeading());
 
         // calculate delta angle 
@@ -91,13 +92,13 @@ public class PathfinderTestCommand extends Command{
         // basically just a p controller
         gyroOutput = 0.8 * (-1.0/80.0) * angleDifference;
 
-        // aux pid logic except it's aux p basically but shh details
+        // aux pid logic except it's aux p basically but shh detials                  (i did that on prupose)
         leftOutput += gyroOutput;
         rightOutput -= gyroOutput;
 
         // set motor powers
-        Robot.getLeftMast().set(ControlMode.PercentOutput, leftOutput);
-        Robot.getRightMast().set(ControlMode.PercentOutput, rightOutput);
+        Robot.getLeftMast().set(ControlMode.PercentOutput, 0.3*leftOutput);
+        Robot.getRightMast().set(ControlMode.PercentOutput, 0.3*rightOutput);
 
         // print motor powers bc like that is useful
         SmartDashboard.putNumber("leftMastOutput", leftOutput);

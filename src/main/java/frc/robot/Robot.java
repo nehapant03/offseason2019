@@ -25,15 +25,16 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     oi = new OI();
     driveBase = new DriveBaseSub();
-    arcade = new ArcadeCommand(oi.joystick, driveBase.leftSide, driveBase.rightSide, .4, .4);
-    tank = new TankCommand(oi.joystick, driveBase.leftSide, driveBase.rightSide, .2, .4);
     hallEffect = new HallEffectSub();
     potentiometer = new PotentiometerSub();
     arm = new ArmSub();
-    motionMagic = new RunWithMotionMagic(36);
     dashboard = new Dashboard();
-    pathfinder = new PathfinderTestCommand();
     gyro = new GyroSub();
+
+    arcade = new ArcadeCommand(oi.joystick, driveBase.leftSide, driveBase.rightSide, .4, .4);
+    tank = new TankCommand(oi.joystick, driveBase.leftSide, driveBase.rightSide, .2, .4);
+    motionMagic = new RunWithMotionMagic(36);
+    pathfinder = new PathfinderTestCommand();
   }
 
   @Override
@@ -64,7 +65,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    pathfinder.start();
+    // pathfinder.start();
   }
 
   @Override

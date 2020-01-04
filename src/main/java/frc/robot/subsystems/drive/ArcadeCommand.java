@@ -6,7 +6,6 @@ import com.team7419.PaddedXbox;
 import frc.robot.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 /**
  * Reusable arcade command
  */
@@ -32,19 +31,20 @@ public class ArcadeCommand extends Command {
     this.kStraight = kStraight;
     this.kTurn = kTurn;
     requires(Robot.driveBase);
+    requires(Robot.gyro);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    // /* factory default just so nothing acts up */
+    /* factory default just so nothing acts up */
 		Robot.driveBase.rightMast.configFactoryDefault();
 		Robot.driveBase.leftMast.configFactoryDefault();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-public void execute() {
+  public void execute() {
     
     SmartDashboard.putString("command status", "arcade");
     double leftPower = kTurn * joystick.getRightX() - kStraight * joystick.getLeftY();
@@ -52,12 +52,6 @@ public void execute() {
 
     leftSide.setPower(leftPower);
     rightSide.setPower(rightPower);
-
-    SmartDashboard.putNumber("leftMast", Robot.driveBase.leftMast.getSelectedSensorPosition(0));
-    SmartDashboard.putNumber("rightMast", Robot.driveBase.rightMast.getSelectedSensorPosition(0));
-    
-    SmartDashboard.putNumber("leftMastOutput", Robot.driveBase.leftMast.getMotorOutputPercent());
-    SmartDashboard.putNumber("rightMastOutput", Robot.driveBase.rightMast.getMotorOutputPercent());
 
     if(Robot.oi.joystick.getRightShoulder()){
       Robot.getLeftMast().getSensorCollection().setQuadraturePosition(0, 10);

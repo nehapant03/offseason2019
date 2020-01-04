@@ -1,9 +1,10 @@
 package frc.robot.subsystems.dashboard;
 
 import edu.wpi.first.networktables.*;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 
-public class Dashboard{
+public class Dashboard extends Subsystem{
 
     ShuffleboardTab pidTab = Shuffleboard.getTab("motion magic tuning");
 
@@ -18,6 +19,11 @@ public class Dashboard{
     
     public double getkD(){
         return kD.getDouble(0.1);
+    }
+
+    @Override
+    public void initDefaultCommand(){
+        setDefaultCommand(new PrintStatements());
     }
 
 }

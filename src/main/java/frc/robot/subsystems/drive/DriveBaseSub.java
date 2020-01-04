@@ -5,7 +5,6 @@ import com.team7419.Initers;
 import com.team7419.MotorGroup;
 import com.team7419.TalonFuncs;
 
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
