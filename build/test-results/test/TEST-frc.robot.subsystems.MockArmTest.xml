@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="frc.robot.subsystems.MockArmTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-12-22T04:50:29" hostname="MacBook-Pro.local" time="0.029">
+  <properties/>
+  <testcase name="getArmValues" classname="frc.robot.subsystems.MockArmTest" time="0.003"/>
+  <testcase name="testPid" classname="frc.robot.subsystems.MockArmTest" time="0.026"/>
+  <system-out><![CDATA[5.325
+0.0
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

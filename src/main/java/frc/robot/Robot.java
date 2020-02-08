@@ -1,23 +1,40 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.commands.ArcadeCommand;
-import frc.robot.commands.TankCommand;
-import frc.robot.subsystems.DriveBaseSub;
+import frc.robot.subsystems.arm.*;
+import frc.robot.subsystems.dashboard.*;
+import frc.robot.subsystems.drive.*;
  
 public class Robot extends TimedRobot {
   public static OI oi;
   public static DriveBaseSub driveBase;
   public static ArcadeCommand arcade;
   public static TankCommand tank;
+  public static HallEffectSub hallEffect;
+  public static PotentiometerSub potentiometer;
+  public static ArmSub arm;
+  public static RunWithMotionMagic motionMagic;
+  public static Dashboard dashboard;
+  public static PathfinderTestCommand pathfinder;
+  public static GyroSub gyro;
 
   @Override
   public void robotInit() {
     oi = new OI();
     driveBase = new DriveBaseSub();
+    hallEffect = new HallEffectSub();
+    potentiometer = new PotentiometerSub();
+    arm = new ArmSub();
+    dashboard = new Dashboard();
+    gyro = new GyroSub();
+
     arcade = new ArcadeCommand(oi.joystick, driveBase.leftSide, driveBase.rightSide, .4, .4);
     tank = new TankCommand(oi.joystick, driveBase.leftSide, driveBase.rightSide, .2, .4);
+    motionMagic = new RunWithMotionMagic(36);
+    pathfinder = new PathfinderTestCommand();
   }
 
   @Override
@@ -48,15 +65,28 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    tank.start();
+    // pathfinder.start();
   }
 
   @Override
   public void teleopPeriodic() {
+    if(oi.joystick.getA()){
+      pathfinder.start();
+    }
+    else if(oi.joystick.getB()){
+      pathfinder.cancel();
+    }
+    else if(oi.joystick.getXButton()){
+      arcade.start();
+    }
     Scheduler.getInstance().run();
   }
 
   @Override
   public void testPeriodic() {
   }
+
+  public static TalonSRX getRightMast(){return driveBase.rightMast;}
+  public static TalonSRX getLeftMast(){return driveBase.leftMast;}
+
 }

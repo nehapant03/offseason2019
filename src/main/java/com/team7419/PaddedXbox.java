@@ -2,20 +2,18 @@ package com.team7419;
 
 import edu.wpi.first.wpilibj.XboxController;
 
-public class PaddedXbox {
-
-    public XboxController playerOne; 
+public class PaddedXbox extends XboxController{
 
     public PaddedXbox(){
-        playerOne = new XboxController(F310Map.f310Main.value);
+		super(F310Map.f310Main.value);
     }
 
-    enum F310Map{
+    public enum F310Map{
         //Input Map
         f310Main(0),
         f310Secondary(1),
         
-        //F310 MAP
+        //F310 MAP, use for button bindings
         kGamepadAxisLeftStickX(0),
         kGamepadAxisLeftStickY(1),
         kGamepadAxisLeftTrigger(2),
@@ -43,42 +41,42 @@ public class PaddedXbox {
     }
 
     public double getRightX() {
-		double out = playerOne.getRawAxis(F310Map.kGamepadAxisRightStickX.value);
+		double out = getRawAxis(F310Map.kGamepadAxisRightStickX.value);
 		if(Math.abs(out)<.05) {
 			out = 0;
 		}
 		return out;
 	}
 	public double getLeftX() {
-		double out = playerOne.getRawAxis(F310Map.kGamepadAxisLeftStickX.value);
+		double out = getRawAxis(F310Map.kGamepadAxisLeftStickX.value);
 		if(Math.abs(out)<.05) {
 			out = 0;
 		}
 		return out;
 	}
 	public double getLeftY() {
-		double out = -playerOne.getRawAxis(F310Map.kGamepadAxisLeftStickY.value);
+		double out = -getRawAxis(F310Map.kGamepadAxisLeftStickY.value);
 		if(Math.abs(out)<.05) {
 			out = 0;
 		}
 		return -out;
 	}
 	public double getRightY() {
-		double out = -playerOne.getRawAxis(F310Map.kGamepadAxisRightStickY.value);
+		double out = -getRawAxis(F310Map.kGamepadAxisRightStickY.value);
 		if(Math.abs(out)<.05) {
 			out = 0;
 		}
 		return out;
 	}
 	public double getLeftTrig() {
-		double out = playerOne.getRawAxis(F310Map.kGamepadAxisLeftTrigger.value);
+		double out = getRawAxis(F310Map.kGamepadAxisLeftTrigger.value);
 		if(Math.abs(out)<.05) {
 			out = 0;
 		}
 		return -out;
 	}
 	public double getRightTrig() {
-		double out = playerOne.getRawAxis(F310Map.kGamepadAxisRightTrigger.value);
+		double out = getRawAxis(F310Map.kGamepadAxisRightTrigger.value);
 		if(Math.abs(out)<.05) {
 			out = 0;
 		}
@@ -86,31 +84,33 @@ public class PaddedXbox {
 	}
 	
 	public boolean getB() {
-		return playerOne.getRawButton(F310Map.kGamepadButtonB.value);
+		return getRawButton(F310Map.kGamepadButtonB.value);
 	}
 
 	
 	public boolean getA() {
-		return playerOne.getRawButton(F310Map.kGamepadButtonA.value);
+		return getRawButton(F310Map.kGamepadButtonA.value);
 	}
 	
-	public boolean getY() {
-		return playerOne.getRawButton(F310Map.kGamepadButtonY.value);
+	@Override
+	public boolean getYButton() {
+		return getRawButton(F310Map.kGamepadButtonY.value);
 	}
 	
-	public boolean getX() {
-		return playerOne.getRawButton(F310Map.kGamepadButtonX.value);
+	@Override
+	public boolean getXButton() {
+		return getRawButton(F310Map.kGamepadButtonX.value);
 	}
 
 	public boolean getRightShoulder(){
-		return playerOne.getRawButton(F310Map.kGamepadButtonShoulderR.value);
+		return getRawButton(F310Map.kGamepadButtonShoulderR.value);
 	}
 
 	public boolean getLeftShoulder(){
-		return playerOne.getRawButton(F310Map.kGamepadButtonShoulderL.value);
+		return getRawButton(F310Map.kGamepadButtonShoulderL.value);
 	}
 
 	public int getDpad(){
-		return playerOne.getPOV();
+		return getPOV();
 	}
 }

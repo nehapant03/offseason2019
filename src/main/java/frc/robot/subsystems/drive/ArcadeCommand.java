@@ -1,21 +1,15 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
-package frc.robot.commands;
+package frc.robot.subsystems.drive;
 
 import edu.wpi.first.wpilibj.command.Command;
 import com.team7419.MotorGroup;
 import com.team7419.PaddedXbox;
 import frc.robot.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Reusable arcade command
  */
-public class TankCommand extends Command {
+public class ArcadeCommand extends Command {
 
   private MotorGroup leftSide;
   private MotorGroup rightSide;
@@ -30,38 +24,40 @@ public class TankCommand extends Command {
    * @param kStraight 
    * @param kTurn
    */
-  public TankCommand(PaddedXbox joystick, MotorGroup leftSide, MotorGroup rightSide, double kStraight, double kTurn){
+  public ArcadeCommand(PaddedXbox joystick, MotorGroup leftSide, MotorGroup rightSide, double kStraight, double kTurn){
     this.joystick = joystick;
     this.leftSide = leftSide;
     this.rightSide = rightSide;
     this.kStraight = kStraight;
     this.kTurn = kTurn;
     requires(Robot.driveBase);
+    requires(Robot.gyro);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    /* factory default just so nothing acts up */
+		Robot.driveBase.rightMast.configFactoryDefault();
+		Robot.driveBase.leftMast.configFactoryDefault();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {
-
-    double leftPower = joystick.getLeftY();
-    double rightPower = joystick.getRightY();
-
-    if(leftPower * rightPower > 0){ //going in same direction, robot is straight
-        leftPower *= kStraight;
-        rightPower *= kStraight;
-    }
-    else{ //opp directions, robot is turning
-        leftPower *= kTurn;
-        rightPower *= kTurn;
-    }
+  public void execute() {
+    
+    SmartDashboard.putString("command status", "arcade");
+    double leftPower = kTurn * joystick.getRightX() - kStraight * joystick.getLeftY();
+    double rightPower = -kTurn * joystick.getRightX() - kStraight * joystick.getLeftY();
 
     leftSide.setPower(leftPower);
     rightSide.setPower(rightPower);
+
+    if(Robot.oi.joystick.getRightShoulder()){
+      Robot.getLeftMast().getSensorCollection().setQuadraturePosition(0, 10);
+      Robot.getRightMast().getSensorCollection().setQuadraturePosition(0, 10);
+    }
+
   }
 
   // Make this return true when this Command no longer needs to run execute()

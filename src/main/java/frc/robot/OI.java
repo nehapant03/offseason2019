@@ -9,12 +9,16 @@ package frc.robot;
 
 import com.team7419.PaddedXbox;
 
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
-
 public class OI {
 
+  // pretending to be productive ft henry
   public PaddedXbox joystick = new PaddedXbox();
-  public JoystickButton leftDpad = new JoystickButton(joystick.playerOne, joystick.playerOne.getPOV());
+  //public JoystickButton buttonA = new JoystickButton(joystick, 1);
   
-  public OI(){}
+  public OI(){
+    // buttonA = new JoystickButton(joystick, 1);
+    //buttonA.whenPressed(new TalonAuxPidTestCommand(Robot.driveBase.leftMast, Robot.driveBase.rightMast, 12));
+  }
+
+  
 }
