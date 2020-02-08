@@ -44,7 +44,7 @@ public class DcMotor{
     }
 
     /**
-     * pretty much only for use setting up a transmission but like eh
+     * only for use when setting up a transmission
      * @param kV can be computed using getkV
      * @param kT can be computed using getkT
      * @param kInternalResistance can be computed using getkInternalResistance
@@ -56,7 +56,7 @@ public class DcMotor{
     }
 
     /**
-     * def minorly stealing from 254 but like ehh
+     * makes a DcMotor object with internal properties adjusted based on gearbox
      * @param motor instantiate DcMotor with appropriate MotorType and pass through
      * @param numOfMotors number of motors in gearbox
      * @param gearReduction gear ratio
