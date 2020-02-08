@@ -13,7 +13,7 @@ public class PaddedXbox extends XboxController{
         f310Main(0),
         f310Secondary(1),
         
-        //F310 MAP
+        //F310 MAP, use for button bindings
         kGamepadAxisLeftStickX(0),
         kGamepadAxisLeftStickY(1),
         kGamepadAxisLeftTrigger(2),
